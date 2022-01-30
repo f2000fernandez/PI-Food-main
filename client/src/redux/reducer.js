@@ -1,6 +1,6 @@
 import { GET_ALL_RECIPES, CREATE_RECIPE, GET_RECIPE, FILTER_RECIPES, ORDER_RECIPES } from './actions.js'
-import filterRecipes from '../../filters/filterRecipes';
-import orderRecipes from '../../filters/orderRecipes';
+import filterStoreRecipes from '../filters/filterRecipes';
+import orderStoreRecipes from '../filters/orderRecipes';
 
 const initialState = {
     recipes: [],
@@ -19,7 +19,7 @@ const rootReducer = (state = initialState, action) => {
         case CREATE_RECIPE:
             return {
                 ...state,
-                recipes: recipes.unshift(action.payload)
+                recipes: state.recipes.unshift(action.payload)
             };
 
         case GET_RECIPE:
@@ -31,13 +31,13 @@ const rootReducer = (state = initialState, action) => {
         case FILTER_RECIPES:
             return {
                 ...state,
-                recipes: filterRecipes(recipes, action.payload)
+                recipes: filterStoreRecipes(state.recipes, action.payload)
             }
 
         case ORDER_RECIPES:
             return {
                 ...state,
-                recipes: orderRecipes(recipes, action.payload)
+                recipes: orderStoreRecipes(state.recipes, action.payload)
             }
             
         default: 

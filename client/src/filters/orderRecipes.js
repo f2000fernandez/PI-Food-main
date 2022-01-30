@@ -31,7 +31,7 @@ function orderByScore(recipes, order, score) {
     
 }
 
-export default orderStoreRecipes = function(recipes, type) {
+function orderStoreRecipes(recipes, type) {
     switch (type) {
         case "A-Z":
             return orderByName(recipes, 'ascending');
@@ -48,3 +48,5 @@ export default orderStoreRecipes = function(recipes, type) {
         default: return "invalid sorting";
     }
 }
+
+export default orderStoreRecipes
