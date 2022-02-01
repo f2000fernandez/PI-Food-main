@@ -19,15 +19,19 @@ const apiComplexSearch = async function(query) {
 }
 
 const apiInformation = async function(id) {
-    console.log('IM HERE!!')
     let {data} = await axios.get(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${API_KEY}`);
-    console.log(data)
     return {
-        title: data.title, spoonacularScore: data.spoonacularScore, healthScore: data.healthScore, instructions: data.instructions, image: data.image, summary: data.summary
+        title: data.title, spoonacularScore: data.spoonacularScore, healthScore: data.healthScore, instructions: data.instructions, image: data.image, summary: data.summary, diets: data.diets
     }
 }
 
 const router = Router();
+
+router.get('/test', async (req, res) => {
+    let recipe = await Recipe.findByPk(-2);
+    let diets = await recipe.getDiets()
+    res.json(diets)
+})
 
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
@@ -38,16 +42,15 @@ router.get('/recipes', async (req, res) => {
             title: {
                 [Op.iLike]: '%' + name + '%'
             }
-        },
-        include: [{
-            model: Diet,
-            through: {
-              attributes: []
-            }
-          }]
+        }
     });
+    let dbRecipesDiets = await Promise.all( dbRecipes.map(async recipe =>{
+        let diets = await recipe.getDiets();
+        let dietnames = diets.map(diet => diet.name);
+        return {...recipe.dataValues, diets: dietnames}
+    })) 
     let apiRecipes = await apiComplexSearch(name);
-    res.json([...dbRecipes, ...apiRecipes]);
+    res.json([...dbRecipesDiets, ...apiRecipes]);
 });
 
 router.get('/recipes/:id', async (req, res) => {
@@ -55,7 +58,12 @@ router.get('/recipes/:id', async (req, res) => {
     let recipeInfo;
     if(id >= 0) {
         recipeInfo = await apiInformation(id);
-    } else recipeInfo = await Recipe.findByPk(id);
+    } else {
+        let recipe = await Recipe.findByPk(id);
+        let diets = await recipe.getDiets();
+        let dietnames = diets.map(diet => diet.name);
+        recipeInfo = {...recipe.dataValues, diets: dietnames}
+    }
     res.json(recipeInfo)
 });
 
@@ -80,23 +88,13 @@ router.post('/recipe', async (req, res) => {
         healthScore,
         instructions,
     });
-    let recipe = newRecipe;
     if(diets) {
         await Promise.all(diets.map(async (dieta) => {
             let diet = await Diet.findOne({where: {name: dieta}});
             await newRecipe.addDiet(diet.id);
-        })); 
-        recipe = await Recipe.findOne({
-            where: {title:title},
-            include: [{
-                model: Diet,
-                through: {
-                  attributes: []
-                }
-              }]
-        })
+        }));
     }
-    res.json(recipe);
+    res.json({...newRecipe.dataValues, diets});
 });
 
 
