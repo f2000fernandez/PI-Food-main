@@ -1,8 +1,10 @@
 import React from "react";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getRecipe, deleteRecipe } from "../redux/actions";
+import Home from "./Home";
 
 const RecipeDetail = () => {
 
@@ -10,16 +12,10 @@ const RecipeDetail = () => {
     const {recipe} = useSelector((state) => state)
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
+    useEffect(() => {
         dispatch(getRecipe(recipeId));
-        return function cleanup() {
-            dispatch(deleteRecipe())
-        };
+        return dispatch(deleteRecipe())
     }, [dispatch, recipeId])
-
-    React.useEffect(() => {
-        console.log(recipe)
-    }, [recipe])
 
     if (Object.keys(recipe).length === 0) return (
         <div>
@@ -29,7 +25,8 @@ const RecipeDetail = () => {
 
     return (
         <div>
-            <img src={recipe.image} alt="no fucking picture found"/>
+            <Home/>
+            <img src={recipe.image} alt="no picture found"/>
             <h2>{recipe.title}</h2>
 c            <div dangerouslySetInnerHTML={{__html: `${recipe.summary}`}} />
             <h2>{recipe.spoonacularScore}</h2>
@@ -37,7 +34,7 @@ c            <div dangerouslySetInnerHTML={{__html: `${recipe.summary}`}} />
             {
                 recipe.diets && <ul>
                     {
-                        recipe.diets.map(diet => <li key={recipe.id}>{diet}</li>)
+                        recipe.diets.map((diet, index) => <li key={index}>{diet}</li>)
                     }
                 </ul>
             }

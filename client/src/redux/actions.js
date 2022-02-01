@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const GET_ALL_RECIPES = 'GET_ALL_RECIPES';
+export const GET_BACKUP_RECIPES = 'GET_BACKUP_RECIPES';
 export const GET_RECIPE_NAME = 'GET_RECIPE_NAME';
 export const GET_RECIPE = 'GET_RECIPE';
 export const DELETE_RECIPE = "DELETE_RECIPE";
@@ -20,10 +21,14 @@ export const getAllRecipes = function() {
     }
 }
 
+export const getBackupRecipes = function() {
+    return { type: GET_BACKUP_RECIPES }
+}
+
 export const getRecipeName = function(name) {
     return async (dispatch) => {
-        const response = await axios.get(`${URL}/recipes&name=${name}`)
-        dispatch({ type: GET_RECIPE_NAME, payload: response })
+        const response = await axios.get(`${URL}/recipes?name=${name}`)
+        dispatch({ type: GET_RECIPE_NAME, payload: response.data })
     }
 }
 
@@ -46,10 +51,10 @@ export const orderRecipes = function(type) {
     return { type: ORDER_RECIPES, payload: type }
 }
 
-export const getDiets = async function() {
+export const getDiets = function() {
     return async (dispatch) => {
         const response = await axios.get(`${URL}/types`)
-        dispatch({ type: GET_DIETS, payload: response })
+        dispatch({ type: GET_DIETS, payload: response.data })
     }
 }
 

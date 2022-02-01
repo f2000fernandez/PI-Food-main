@@ -1,0 +1,29 @@
+.landing{
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position:absolute;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    left:0px;
+    
+    background-image: url('./img/landingbg.jpg');
+
+}
+
+.interact{
+ 
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    width: 300px;
+    background-color: rgb(82, 90, 87);
+
+
+    width: 20%;
+    
+}
+

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createRecipe } from "../redux/actions";
+import Home from "./Home";
 
 const dietOptions = [
     { value: 'Gluten Free', label: 'Gluten Free' },
@@ -34,12 +35,6 @@ const CreateRecipe = () => {
         diets: []
     })
 
-    let recipes = useSelector((state) => state.recipes)
-
-    useEffect(() => {
-        console.log(recipes)
-    },[recipes])
-
     const dispatch = useDispatch();
 
     function handleSelectChange(diets) {
@@ -65,11 +60,15 @@ const CreateRecipe = () => {
     }
 
     useEffect(() => {
-        if(input.diets.length > 0) dispatch(createRecipe(input))
+        if(input.diets.length > 0) {
+            dispatch(createRecipe(input))
+            alert('Recipe has been created!')
+        }
     }, [input.diets])
 
     return (
         <div>
+            <Home />
             <form onSubmit={handleSubmit}>
 
                 <label>Name:</label>
