@@ -3,17 +3,20 @@ import axios from 'axios';
 export const GET_ALL_RECIPES = 'GET_ALL_RECIPES';
 export const GET_RECIPE_NAME = 'GET_RECIPE_NAME';
 export const GET_RECIPE = 'GET_RECIPE';
+export const DELETE_RECIPE = "DELETE_RECIPE";
 export const GET_DIETS = 'GET_DIETS';
 export const CREATE_RECIPE = 'CREATE_RECIPE';
 export const FILTER_RECIPES = "FILTER_RECIPES";
 export const ORDER_RECIPES = "ORDER_RECIPES";
 
-const URL = "localhost:3001";
+const URL = "http://localhost:3001";
+
+let id = 0;
 
 export const getAllRecipes = function() {
     return async (dispatch) => {
         const response = await axios.get(`${URL}/recipes`);
-        dispatch({ type: GET_ALL_RECIPES, payload: response })
+        dispatch({ type: GET_ALL_RECIPES, payload: response.data })
     }
 }
 
@@ -27,8 +30,12 @@ export const getRecipeName = function(name) {
 export const getRecipe = function(id) {
     return async (dispatch) => {
         const response = await axios.get(`${URL}/recipes/${id}`)
-        dispatch({ type: GET_RECIPE, payload: response })
+        dispatch({ type: GET_RECIPE, payload: response.data })
     }
+}
+
+export const deleteRecipe = function() {
+    return { type: DELETE_RECIPE }
 }
 
 export const filterRecipes = function(type) {
@@ -39,17 +46,17 @@ export const orderRecipes = function(type) {
     return { type: ORDER_RECIPES, payload: type }
 }
 
-export const getDiets = function() {
+export const getDiets = async function() {
     return async (dispatch) => {
-        const response = await axios.get(`${URL}/types`);
+        const response = await axios.get(`${URL}/types`)
         dispatch({ type: GET_DIETS, payload: response })
     }
 }
 
-export const createRecipe = function({id, title, summary, spoonacularScore, healthScore, instructions, diets}) {
+export const createRecipe = function({title, summary, spoonacularScore, healthScore, instructions, diets}) {
     return async (dispatch) => {
-        const post = axios.post(`${URL}/recipe`, {
-            id,
+        const post = await axios.post(`${URL}/recipe`, {
+            id: --id,
             title,
             summary,
             spoonacularScore,
@@ -57,6 +64,6 @@ export const createRecipe = function({id, title, summary, spoonacularScore, heal
             instructions,
             diets
         })
-        dispatch({ type: CREATE_RECIPE, payload: post })
+        dispatch({ type: CREATE_RECIPE, payload: post.data })
     }
 }
