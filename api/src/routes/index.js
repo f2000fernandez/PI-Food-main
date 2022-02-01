@@ -11,9 +11,9 @@ const { API_KEY } = process.env;
 const apiComplexSearch = async function(query) {
     let apiData;
     if(query) {
-        apiData = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${API_KEY}&addRecipeInformation=true`);
+        apiData = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?query=${query}&apiKey=${API_KEY}&addRecipeInformation=true&number=86`);
     } else {
-        apiData = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true`);
+        apiData = await axios.get(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${API_KEY}&addRecipeInformation=true&number=86`);
     }
     return apiData.data.results.map(e => {return {id: e.id, title: e.title, spoonacularScore: e.spoonacularScore, healthScore: e.healthScore, image: e.image, diets: e.diets} })
 }
@@ -88,7 +88,7 @@ router.post('/recipe', async (req, res) => {
         healthScore,
         instructions,
     });
-    if(diets) {
+    if(diets.length > 0) {
         await Promise.all(diets.map(async (dieta) => {
             let diet = await Diet.findOne({where: {name: dieta}});
             await newRecipe.addDiet(diet.id);
