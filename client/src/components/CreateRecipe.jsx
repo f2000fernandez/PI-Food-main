@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import Select from 'react-select';
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { createRecipe } from "../redux/actions";
 import Home from "./Home";
+import validate from "../filters/validate";
+import './estilos/CreateRecipe.css'
 
 const dietOptions = [
     { value: 'Gluten Free', label: 'Gluten Free' },
@@ -22,7 +24,7 @@ const dietOptions = [
 
 const CreateRecipe = () => {
     
-    const [input, setInput] = React.useState({
+    const [input, setInput] = useState({
         title: "",
         summary: "",
         spoonacularScore: "",
@@ -31,7 +33,9 @@ const CreateRecipe = () => {
         diets: []
     })
 
-    const [diets, setDiets] = React.useState({
+    const [errors, setErrors] = useState({})
+
+    const [diets, setDiets] = useState({
         diets: []
     })
 
@@ -49,6 +53,7 @@ const CreateRecipe = () => {
             ...input,
             [event.target.name]: event.target.value
         });
+        setErrors(validate(input, diets))
     }
 
     function handleSubmit(event) {
@@ -69,31 +74,50 @@ const CreateRecipe = () => {
     return (
         <div>
             <Home />
-            <form onSubmit={handleSubmit}>
+            <form className="form" onSubmit={handleSubmit}>
+               
+                <div className="inputs">
+                    <label>Name:</label>
+                    <input name="title" value={input.title} onChange={handleChange} />
+                    {errors.title && <span>{errors.title}</span>}
+                </div>
 
-                <label>Name:</label>
-                <input name="title" value={input.title} onChange={handleChange} />
+                <div className="inputs">
+                    <label>Summary:</label>
+                    <input className="inputs" name="summary" value={input.summary} onChange={handleChange} />
+                    {errors.summary && <span>{errors.summary}</span>}
+                </div>
 
-                <label>Summary:</label>
-                <input name="summary" value={input.summary} onChange={handleChange} />
+                <div className="inputs">
+                    <label>Score:</label>
+                    <input className="inputs" name="spoonacularScore" value={input.spoonacularScore} onChange={handleChange} />
+                    {errors.spoonacularScore && <span>{errors.spoonacularScore}</span>}
+                </div>
 
-                <label>Score:</label>
-                <input name="spoonacularScore" value={input.spoonacularScore} onChange={handleChange} />
+                <div className="inputs">
+                    <label>Health score:</label>
+                    <input className="inputs" name="healthScore" value={input.healthScore} onChange={handleChange} />
+                    {errors.healthScore && <span>{errors.healthScore}</span>}
+                </div>
 
-                <label>Health score:</label>
-                <input name="healthScore" value={input.healthScore} onChange={handleChange} />
+                <div className="inputs">
+                    <label>Instructions:</label>
+                    <input className="inputs" name="instructions" value={input.instructions} onChange={handleChange} />
+                    {errors.instructions && <span>{errors.instructions}</span>}
+                </div>
+                
+                <div className="inputs">
+                    <Select
+                        isMulti
+                        value={diets.diets}
+                        onChange={handleSelectChange}
+                        options={dietOptions}
+                    />
+                    {errors.diets && <span>{errors.diets}</span>}
+                </div>
 
-                <label>Instructions:</label>
-                <input name="instructions" value={input.instructions} onChange={handleChange} />
 
-                <Select
-                    isMulti
-                    value={diets.diets}
-                    onChange={handleSelectChange}
-                    options={dietOptions}
-                />
-
-                <button type='submit'>Create recipe!</button>
+                <button type='submit' disabled={Object.keys(errors).length > 0}>Create recipe!</button>
             </form>
         </div>
     )

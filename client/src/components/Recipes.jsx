@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { getAllRecipes, getRecipeName, filterRecipes, orderRecipes, getBackupRecipes, getDiets } from "../redux/actions";
 import RecipeCard from "./RecipeCard";
 import Paginado from "./Paginado";
-// import './estilos/Paginado.css';
+import './estilos/Recipes.css';
 
 const Recipes = () => {
 
     const dispatch = useDispatch();
     const [input, setInput] = useState('')
+
     const {recipes, backup, diets} = useSelector((state) => state)
     
     const [currentPage, setCurrentPage] = useState(1);
+
     const recipesPerPage = 9;
     const lastRecipe = currentPage * recipesPerPage;
     const firstRecipe = lastRecipe - recipesPerPage;
@@ -27,7 +29,7 @@ const Recipes = () => {
 
     function handleSearch(event) {
         event.preventDefault();
-        if(backup.length > 0)dispatch(getBackupRecipes())
+        if(backup.length > 0) dispatch(getBackupRecipes())
         dispatch(getRecipeName(input))
         setInput('');
     }
@@ -56,10 +58,10 @@ const Recipes = () => {
     }, []) 
     
     return (
-        <div>
-            <Link to='/recipe/create'><h1>Create new recipe!</h1></Link>
+        <div className="container">
+            <Link className="" to='/recipe/create'><h1>Create new recipe!</h1></Link>
 
-            <form onSubmit={handleSearch}>
+            <form className="search" onSubmit={handleSearch}>
                 <label>Search: </label>
                 <input value={input} onChange={handleInputChange} />
                 <button type="submit">Search</button>
@@ -89,12 +91,14 @@ const Recipes = () => {
 
 
             <h3>Recipes:</h3>
+            <div className="cards">
             {
                 pagedRecipes.length > 0 && pagedRecipes.map(recipe => (
                     <RecipeCard key={recipe.id} id={recipe.id} image={recipe.image} title={recipe.title} diets={recipe.diets} />    
                     )
                 )
             }
+            </div>
 
         </div>
     )

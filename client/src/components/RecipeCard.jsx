@@ -1,20 +1,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import './estilos/RecipeCard.css'
 
 const RecipeCard = ({id, image, title, diets}) => {
-    let key = 0;
     return (
-        <div>
-            <img src={image} alt="no picture found"/>
+        <div className="card">
+            <img className="img" src={image} alt="no picture found"/>
             <h3>
                 <Link to={`/recipes/${id}`}>{title}</Link>
             </h3>
             {
-                diets && <ul>
-                    {
-                        diets.map(diet => <li key={key++}>{diet}</li>)
-                    }
-                </ul>
+                diets && diets.map((diet, index) => <p key={index}>{diet}</p>)   
             }
         </div>
     )

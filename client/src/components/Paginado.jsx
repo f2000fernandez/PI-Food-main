@@ -10,7 +10,6 @@ const Paginado = ({recipesPerPage, recipes, setCurrentPage}) => {
 
     return (
         <div>
-            <h4>Pages:</h4>
             {
                 pages.length > 0 && pages.map(num => (    
                     <button key={num} className="container" onClick={()=>setCurrentPage(num)}>
