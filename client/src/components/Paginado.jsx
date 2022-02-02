@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-// import './estilos/Paginado.css';
+import React from "react";
+import './estilos/Paginado.css';
 
 const Paginado = ({recipesPerPage, recipes, setCurrentPage}) => {
     

@@ -1,20 +1,40 @@
 .card {
-    display: flexbox;
-    /* flex-wrap: wrap; */
+    display: flex;
+    flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
     padding-left: 20px;
     padding-right: 20px;
     width: 20vw;
-    height: 55vh;
+    height: 65vh;
     background-color: white;
-
+    
 }
 
 .img {
     justify-content: center;
-    padding: 15px;
-    height: 25vh;
-    width: 15vw;
+    margin-top: 10px;
+    height: 30vh;
+    width: 20vw;
     border-radius: 15px;
+}
+
+.name {
+    margin-top: 0em;
+}
+
+.dietList {
+    margin-top: 0em;
+}
+
+.dietList:before{
+    content:attr(aria-label);
+    font-size:120%;
+    font-weight:bold;
+    margin-right: 20px;
+}
+
+.diet {
+    margin-top: 0em;
+    margin-right: 20px;
 }

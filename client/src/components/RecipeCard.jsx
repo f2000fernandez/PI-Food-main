@@ -7,10 +7,12 @@ const RecipeCard = ({id, image, title, diets}) => {
         <div className="card">
             <img className="img" src={image} alt="no picture found"/>
             <h3>
-                <Link to={`/recipes/${id}`}>{title}</Link>
+                <Link className="name" to={`/recipes/${id}`}>{title}</Link>
             </h3>
             {
-                diets && diets.map((diet, index) => <p key={index}>{diet}</p>)   
+                diets && <ul className="dietList" aria-label="Diets:">
+                    {diets.map((diet, index) => <li className="diet" key={index}>{diet}</li>)}   
+                </ul> 
             }
         </div>
     )

@@ -16,7 +16,7 @@ const validate = ({title, summary, spoonacularScore, healthScore, instructions},
 
     if(!instructions || instructions === "") errors.instructions = "Instructions are required";
 
-    if(diets.diets.length === 0) errors.diets = "Pick at least one diet";
+    if(diets.length === 0) errors.diets = "Pick at least one diet";
     
     return errors;
 }

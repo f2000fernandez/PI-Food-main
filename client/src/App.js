@@ -1,9 +1,8 @@
 import './App.css';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route } from "react-router-dom";
 import Landing from "./components/Landing";
 import Recipes from "./components/Recipes";
-import Home from './components/Home';
 import RecipeDetail from "./components/RecipeDetail";
 import CreateRecipe from "./components/CreateRecipe";
 

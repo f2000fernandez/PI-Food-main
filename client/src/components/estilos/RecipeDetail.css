@@ -1,0 +1,25 @@
+
+.container{
+    background-color: antiquewhite;
+    width: 400px;
+}
+
+.summary {
+    text-align: justify;
+    text-justify: auto;
+}
+
+.scores {
+    display: flex;
+    flex-direction: column;
+}
+
+.dietList {
+    margin-top: 0em;
+}
+
+.dietList:before{
+    content:attr(aria-label);
+    font-size:120%;
+    font-weight:bold;
+}

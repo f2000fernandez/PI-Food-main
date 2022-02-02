@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import Select from 'react-select';
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { createRecipe } from "../redux/actions";
 import Home from "./Home";
 import validate from "../filters/validate";
@@ -35,16 +34,12 @@ const CreateRecipe = () => {
 
     const [errors, setErrors] = useState({})
 
-    const [diets, setDiets] = useState({
-        diets: []
-    })
+    const [diets, setDiets] = useState([])
 
     const dispatch = useDispatch();
 
-    function handleSelectChange(diets) {
-        setDiets({
-            diets: diets
-        })
+    function handleSelectChange(dietas) {
+        setDiets(dietas)
     }
 
     function handleChange(event) {
@@ -53,14 +48,18 @@ const CreateRecipe = () => {
             ...input,
             [event.target.name]: event.target.value
         });
-        setErrors(validate(input, diets))
+        // setErrors(validate(input, diets))
     }
+
+    useEffect(() => {
+        setErrors(validate(input, diets))
+    },[input.title, input.summary, input.spoonacularScore, input.healthScore, input.instructions, diets])
 
     function handleSubmit(event) {
         event.preventDefault();
         setInput({
             ...input,
-            diets: diets.diets.map(diet => diet.value)
+            diets: diets.map(diet => diet.value)
         })
     }
 
@@ -107,9 +106,10 @@ const CreateRecipe = () => {
                 </div>
                 
                 <div className="inputs">
+                    <p>Diets:</p>
                     <Select
                         isMulti
-                        value={diets.diets}
+                        value={diets}
                         onChange={handleSelectChange}
                         options={dietOptions}
                     />

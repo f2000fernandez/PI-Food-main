@@ -24,17 +24,19 @@ const RecipeDetail = () => {
     )
 
     return (
-        <div>
-            <Home/>
-            <img src={recipe.image} alt="no picture found"/>
+        <div className="container">
+            <Home />
+            <img className="img" src={recipe.image} alt="no picture found"/>
             <h2>{recipe.title}</h2>
-c            <div dangerouslySetInnerHTML={{__html: `${recipe.summary}`}} />
-            <h2>{recipe.spoonacularScore}</h2>
-            <h2>{recipe.healthScore}</h2>
+c           <div className="summary" dangerouslySetInnerHTML={{__html: `${recipe.summary}`}} />
+            <div className="scores">
+                <h2>Recipe score: {recipe.spoonacularScore}</h2>
+                <h2>Health score: {recipe.healthScore}</h2>
+            </div>
             {
-                recipe.diets && <ul>
+                recipe.diets && <ul className="dietList" aria-label="Diets:">
                     {
-                        recipe.diets.map((diet, index) => <li key={index}>{diet}</li>)
+                        recipe.diets.map((diet, index) => <li className="diet" key={index}>{diet}</li>)
                     }
                 </ul>
             }
