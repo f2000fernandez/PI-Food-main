@@ -27,14 +27,9 @@ const apiInformation = async function(id) {
 
 const router = Router();
 
-router.get('/test', async (req, res) => {
-    let recipe = await Recipe.findByPk(-2);
-    let diets = await recipe.getDiets()
-    res.json(diets)
-})
-
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
+
 router.get('/recipes', async (req, res) => {
     const {name} = req.query;
     let dbRecipes = await Recipe.findAll({

@@ -2,7 +2,7 @@ const { DataTypes } = require('sequelize');
 // Exportamos una funcion que define el modelo
 // Luego le injectamos la conexion a sequelize.
 module.exports = (sequelize) => {
-  // defino el modelo
+
   sequelize.define('recipe', {
 
     id: {
@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
       primaryKey: true,
       allowNull: false,
       validate: {
-        max: -1
+        max: -1       // negative id's to differenciate from api recipes
       }
     },
 
