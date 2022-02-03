@@ -1,8 +1,8 @@
 
 function orderByName(recipes, order) {
     return recipes.sort(function(a, b) {
-        var nameA = a.title.toUpperCase(); // ignore upper and lowercase
-        var nameB = b.title.toUpperCase(); // ignore upper and lowercase
+        var nameA = a.title.toUpperCase();
+        var nameB = b.title.toUpperCase(); 
         if (order === 'ascending') {
             if (nameA < nameB) {
                 return -1;

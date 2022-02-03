@@ -1,6 +1,9 @@
 
-.container{
+div {
     background-color: antiquewhite;
+}
+
+.container{
     width: 400px;
 }
 
