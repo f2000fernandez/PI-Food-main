@@ -8,7 +8,7 @@ const Landing = () => {
             <p className='welcome'>Welcome to the Henry food app</p>
             <p className='dev'>developed by: Francisco Fernandez</p>
             <Link to="/recipes">
-                <button type='button'> GET STARTED! </button>
+                <button className='button' type='button'> GET STARTED! </button>
             </Link>
         </div>
     )
