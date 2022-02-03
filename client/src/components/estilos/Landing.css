@@ -1,12 +1,35 @@
 
 .landing{
- 
+
+    background-color: antiquewhite;
+
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
     display: flex;
     flex-direction: column;
-    height: 300px;
-    width: 300px;
-    background-color: rgb(82, 90, 87);
-    width: 20%;
+    text-align: center;
+    height: 200px;
+    width: 23%;
     
+}
+
+.welcome {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.dev {
+    margin-top: 0px;
+    margin-bottom: 30px;
+}
+
+button {
+    background-color: #4CAF50;
+    text-align: center;
+    font-size: 16px;
 }
 
